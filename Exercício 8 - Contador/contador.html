@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exercícios JavaScript</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+
+        .imc {
+            font-family: Arial;
+            color: blue;
+            font-size: 24pt;
+        }
+
+        hr {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Exercícios JavaScript</h1>
+
+    <!-- 1 -->
+    <h2>1) Financiamento</h2>
+    Valor da compra: <input type="text" id="valor1"><br>
+    Parcelas (1, 2 ou 4): <input type="text" id="parcelas1"><br>
+    <button onclick="ex1()">Calcular</button>
+    <input type="text" id="res1" size="40" readonly>
+    <hr>
+
+    <!-- 2 -->
+    <h2>2) Par ou ímpar</h2>
+    Número: <input type="text" id="num2">
+    <button onclick="ex2()">Verificar</button><br>
+    <textarea id="res2" rows="2" cols="30" readonly></textarea>
+    <hr>
+
+    <!-- 3 -->
+    <h2>3) Maior de dois números</h2>
+    <form>
+        Número 1: <input type="text" id="a3"><br>
+        Número 2: <input type="text" id="b3"><br>
+        <input type="button" value="Comparar" onclick="ex3()">
+        <input type="text" id="res3" size="30" readonly>
+    </form>
+    <hr>
+
+    <!-- 4 -->
+    <h2>4) Área do retângulo</h2>
+    <form>
+        Base: <input type="text" id="base4"><br>
+        Altura: <input type="text" id="altura4"><br>
+        <input type="button" value="Calcular" onclick="ex4()"><br>
+        <textarea id="res4" rows="2" cols="30" readonly></textarea>
+    </form>
+    <hr>
+
+    <!-- 5 -->
+    <h2>5) Média do aluno</h2>
+    Nota 1: <input type="text" id="n1"><br>
+    Nota 2: <input type="text" id="n2"><br>
+    Nota 3: <input type="text" id="n3"><br>
+    <button onclick="ex5()">Calcular</button><br>
+    Média: <input type="text" id="media5" readonly><br>
+    Conceito: <input type="text" id="conceito5" readonly>
+    <hr>
+
+    <!-- 6 -->
+    <h2>6) Condição de pagamento</h2>
+    <form>
+        Preço: <input type="text" id="preco6"><br>
+        Condição:
+        <select id="cond6">
+            <option value="1">1 - À vista (10% desconto)</option>
+            <option value="2">2 - Cartão (5% desconto)</option>
+            <option value="3">3 - Parcelado (10% aumento)</option>
+        </select><br>
+        <input type="button" value="Calcular" onclick="ex6()"><br>
+        Valor real: <input type="text" id="real6" readonly><br>
+        Valor a pagar: <input type="text" id="pagar6" readonly>
+    </form>
+    <hr>
+
+    <!-- 7 -->
+    <h2>7) IMC</h2>
+    <form>
+        Altura (m): <input type="text" id="altura7"><br>
+        Peso (kg): <input type="text" id="peso7"><br>
+        Sexo:
+        <select id="sexo7">
+            <option value="F">Feminino</option>
+            <option value="M">Masculino</option>
+        </select><br>
+        <input type="button" value="Calcular IMC" onclick="ex7()">
+    </form>
+    <div id="res7"></div>
+    <hr>
+
+    <!-- 8 -->
+    <h2>8) Imposto de Renda</h2>
+    <form>
+        Nome: <input type="text" id="nome8"><br>
+        Salário: <input type="text" id="salario8"><br>
+        <input type="button" value="Calcular IR" onclick="calcularIR()"><br>
+        IR: <input type="text" id="ir8" readonly>
+    </form>
+    <hr>
+
+    <!-- 9 -->
+    <h2>9) Calculadora</h2>
+    <form>
+        Valor 1: <input type="text" id="a9"><br>
+        Valor 2: <input type="text" id="b9"><br>
+        <input type="button" value="+" onclick="calcular('+')">
+        <input type="button" value="-" onclick="calcular('-')">
+        <input type="button" value="*" onclick="calcular('*')">
+        <input type="button" value="/" onclick="calcular('/')"><br>
+        Resultado: <input type="text" id="res9" readonly>
+    </form>
+    <hr>
+
+    <!-- 10 -->
+    <h2>10) Fatorial</h2>
+    N: <input type="text" id="n10">
+    <button onclick="ex10()">Calcular</button><br>
+    Resultado: <input type="text" id="res10" size="40" readonly>
+    <hr>
+
+    <!-- 11 -->
+    <h2>11) Soma de 1 até N</h2>
+    N: <input type="text" id="n11">
+    <button onclick="ex11()">Somar</button><br>
+    Resultado: <input type="text" id="res11" readonly>
+    <hr>
+
+    <!-- 12 -->
+    <h2>12) Adivinhe o número (0 a 100)</h2>
+    Seu chute: <input type="text" id="chute12">
+    <button onclick="ex12()">Chutar</button><br>
+    <input type="text" id="res12" size="40" readonly>
+
+    <script>
+        // Pega o valor de um campo como número
+        function num(id) {
+            return Number(document.getElementById(id).value.replace(",", "."));
+        }
+
+        // Escreve o resultado em um campo
+        function mostrar(id, texto) {
+            document.getElementById(id).value = texto;
+        }
+
+        // 1) Financiamento
+        function ex1() {
+            var valor = num("valor1");
+            var parcelas = num("parcelas1");
+            var juros;
+
+            if (parcelas == 1) juros = 0;
+            else if (parcelas == 2) juros = 3;
+            else if (parcelas == 4) juros = 7;
+            else {
+                mostrar("res1", "Use 1, 2 ou 4 parcelas");
+                return;
+            }
+
+            var total = valor + valor * juros / 100;
+            var parcela = total / parcelas;
+            mostrar("res1", parcelas + "x de R$ " + parcela.toFixed(2) + " (juros " + juros + "%)");
+        }
+
+        // 2) Par ou ímpar
+        function ex2() {
+            var n = num("num2");
+            if (n % 2 == 0) mostrar("res2", n + " é PAR");
+            else mostrar("res2", n + " é ÍMPAR");
+        }
+
+        // 3) Maior de dois
+        function ex3() {
+            var a = num("a3");
+            var b = num("b3");
+            if (a > b) mostrar("res3", a + " é maior");
+            else if (b > a) mostrar("res3", b + " é maior");
+            else mostrar("res3", "São iguais");
+        }
+
+        // 4) Área do retângulo
+        function ex4() {
+            var area = num("base4") * num("altura4");
+            mostrar("res4", "Área = " + area);
+        }
+
+        // 5) Média e conceito
+        function ex5() {
+            var media = (num("n1") + num("n2") + num("n3")) / 3;
+            var conceito;
+
+            if (media >= 6) conceito = "APROVADO";
+            else if (media >= 3) conceito = "EXAME";
+            else conceito = "REPROVADO";
+
+            mostrar("media5", media.toFixed(2));
+            mostrar("conceito5", conceito);
+        }
+
+        // 6) Condição de pagamento
+        function ex6() {
+            var preco = num("preco6");
+            var cond = num("cond6");
+            var pagar = preco;
+
+            if (cond == 1) pagar = preco * 0.9;
+            else if (cond == 2) pagar = preco * 0.95;
+            else if (cond == 3) pagar = preco * 1.1;
+
+            mostrar("real6", "R$ " + preco.toFixed(2));
+            mostrar("pagar6", "R$ " + pagar.toFixed(2));
+        }
+
+        // 7) IMC
+        function ex7() {
+            var altura = num("altura7");
+            var peso = num("peso7");
+            var sexo = document.getElementById("sexo7").value;
+            var imc = peso / (altura * altura);
+            var categoria;
+
+            if (sexo == "F") {
+                if (imc < 19.1) categoria = "Abaixo do peso";
+                else if (imc <= 25.8) categoria = "No peso normal";
+                else if (imc <= 27.3) categoria = "Marginalmente acima do peso";
+                else if (imc <= 32.3) categoria = "Acima do peso ideal";
+                else categoria = "Obesa";
+            } else {
+                if (imc < 20.7) categoria = "Abaixo do peso";
+                else if (imc <= 26.4) categoria = "No peso normal";
+                else if (imc <= 27.8) categoria = "Marginalmente acima do peso";
+                else if (imc <= 31.1) categoria = "Acima do peso ideal";
+                else categoria = "Obeso";
+            }
+
+            document.getElementById("res7").innerHTML =
+                "<p class='imc'>Altura: " + altura + " m</p>" +
+                "<p class='imc'>Peso: " + peso + " kg</p>" +
+                "<p class='imc'>IMC: " + imc.toFixed(2) + "</p>" +
+                "<p class='imc'>Categoria: " + categoria + "</p>";
+        }
+
+        // 8) Imposto de Renda
+        function calcularIR() {
+            var salario = num("salario8");
+            var aliquota;
+
+            if (salario <= 1434) aliquota = 0;
+            else if (salario <= 2150) aliquota = 7.5;
+            else if (salario <= 2866) aliquota = 15;
+            else if (salario <= 3582) aliquota = 22.5;
+            else aliquota = 27.5;
+
+            var ir = salario * aliquota / 100;
+            mostrar("ir8", "R$ " + ir.toFixed(2) + " (" + aliquota + "%)");
+        }
+
+        // 9) Calculadora
+        function calcular(op) {
+            var a = num("a9");
+            var b = num("b9");
+            var r;
+
+            if (op == "+") r = a + b;
+            else if (op == "-") r = a - b;
+            else if (op == "*") r = a * b;
+            else if (b == 0) r = "Divisão por zero";
+            else r = a / b;
+
+            mostrar("res9", r);
+        }
+
+        // 10) Fatorial
+        function ex10() {
+            var n = num("n10");
+            var fat = 1;
+            for (var i = 2; i <= n; i++) {
+                fat = fat * i;
+            }
+            mostrar("res10", n + "! = " + fat);
+        }
+
+        // 11) Soma de 1 até N
+        function somaAte(n) {
+            var soma = 0;
+            for (var i = 1; i <= n; i++) {
+                soma = soma + i;
+            }
+            return soma;
+        }
+
+        function ex11() {
+            var n = num("n11");
+            mostrar("res11", somaAte(n));
+        }
+
+        // 12) Jogo de adivinhação
+        var sorteado = Math.floor(Math.random() * 101);
+        var tentativas = 0;
+
+        function ex12() {
+            var chute = num("chute12");
+            tentativas++;
+
+            if (chute < sorteado) {
+                mostrar("res12", "O número é MAIOR que " + chute);
+            } else if (chute > sorteado) {
+                mostrar("res12", "O número é MENOR que " + chute);
+            } else {
+                mostrar("res12", "Acertou em " + tentativas + " tentativa(s)!");
+                if (confirm("Acertou em " + tentativas + " tentativa(s)! Jogar novamente?")) {
+                    sorteado = Math.floor(Math.random() * 101);
+                    tentativas = 0;
+                    mostrar("res12", "Novo jogo! Faça seu chute.");
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>

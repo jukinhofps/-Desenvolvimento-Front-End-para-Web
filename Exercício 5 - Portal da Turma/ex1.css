@@ -1,0 +1,12 @@
+.caixa{
+    border: 3px solid darkblue;
+    background-color: white;
+    color: black;
+    padding: 10px;
+    box-shadow: 6px 3px #000000;
+}
+
+#faixa{
+    width: 200px;
+    height: 100px;
+}
